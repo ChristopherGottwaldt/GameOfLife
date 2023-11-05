@@ -49,16 +49,24 @@ while running:
             # determine which cell the mouse is in, and toggle the life status!
             col = mouse_pos[1] - (mouse_pos[1] % cell_width)
             row = mouse_pos[0] - (mouse_pos[0] % cell_height)
+            cells[row][col] = not cells[row][col]
+            cell = pygame.Rect(row, col, cell_width, cell_height)
+
             print(row, col)
             print(mouse_pos)
             print(mouse_pos[0])
-            cell = pygame.Rect(row, col, cell_width, cell_height)
 
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill(background_color)
     cornercell = pygame.draw.rect(screen, colors[1], corner)
-    pygame.draw.rect(screen, colors[1], cell)
+    for row, col in cells:
+        cell = pygame.Rect(row, col, cell_width, cell_height)
+        if cells[row][col]:
+            pygame.draw.rect(screen, colors[1], cell)
+        else:
+            pygame.draw.rect(screen, colors[0], cell)
+        
 
     # RENDER YOUR GAME HERE
 
