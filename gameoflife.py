@@ -14,11 +14,16 @@ height = 720
 cell_width = 16
 cell_height = 16
 
+rows = width // cell_width
+cols = height // cell_height
+
+
+
 # with width/height of 16 there can be a grid of 80 x 45 cells
 # this grid will be a 2D array of T/F for alive/dead, indices determine location
-cells = [[False for j in range(45)] for i in range(80)]
-# print(len(cells))
-# print(len(cells[0]))
+cells = [[False for j in range(rows)] for i in range(cols)]
+print(len(cells))
+print(len(cells[0]))
 
 pygame.init()
 screen = pygame.display.set_mode((width, height))
@@ -47,25 +52,27 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             # determine which cell the mouse is in, and toggle the life status!
-            col = mouse_pos[1] - (mouse_pos[1] % cell_width)
-            row = mouse_pos[0] - (mouse_pos[0] % cell_height)
-            cells[row][col] = not cells[row][col]
-            cell = pygame.Rect(row, col, cell_width, cell_height)
+            col = (mouse_pos[1] - (mouse_pos[1] % 16)) // 16
+            row = (mouse_pos[0] - (mouse_pos[0] % 16)) // 16
 
             print(row, col)
             print(mouse_pos)
-            print(mouse_pos[0])
+
+            cells[row // 16][col // 16] = not cells[row // 16][col // 16]
+            cell = pygame.Rect(row, col, cell_width, cell_height)
+
 
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill(background_color)
     cornercell = pygame.draw.rect(screen, colors[1], corner)
-    for row, col in cells:
-        cell = pygame.Rect(row, col, cell_width, cell_height)
-        if cells[row][col]:
-            pygame.draw.rect(screen, colors[1], cell)
-        else:
-            pygame.draw.rect(screen, colors[0], cell)
+    for row in range(rows):
+        for col in range(cols):
+            cell = pygame.Rect(row * 16, col * 16, cell_width, cell_height)
+            if cells[row // cell_width][col // cell_width]:
+                pygame.draw.rect(screen, colors[1], cell)
+            else:
+                pygame.draw.rect(screen, colors[0], cell)
         
 
     # RENDER YOUR GAME HERE
