@@ -1,2 +1,2 @@
-# GameOfLife
-Making John Conway's Game of Life Using Pygame!
+# 2048
+The 2048 tile game using Pygame!
