@@ -28,8 +28,9 @@ running = True
 
 # color creation
 background_color = Color(199, 229, 237)
-alive_color = Color(41, 230, 179)
 dead_color = Color(117, 84, 89)
+alive_color = Color(41, 230, 179)
+colors = [dead_color, alive_color]
 
 # cell creation
 cell = pygame.Rect(width / 2, height / 2, cell_width, cell_height)
@@ -43,11 +44,21 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = pygame.mouse.get_pos()
+            # determine which cell the mouse is in, and toggle the life status!
+            col = mouse_pos[1] - (mouse_pos[1] % cell_width)
+            row = mouse_pos[0] - (mouse_pos[0] % cell_height)
+            print(row, col)
+            print(mouse_pos)
+            print(mouse_pos[0])
+            cell = pygame.Rect(row, col, cell_width, cell_height)
+
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill(background_color)
-    live_cell = pygame.draw.rect(screen, alive_color, cell)
-    cornercell = pygame.draw.rect(screen, alive_color, corner)
+    cornercell = pygame.draw.rect(screen, colors[1], corner)
+    pygame.draw.rect(screen, colors[1], cell)
 
     # RENDER YOUR GAME HERE
 
