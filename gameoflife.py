@@ -1,6 +1,7 @@
 #!/cygdrive/c/Program Files/Python38/python
 
-# Testing file to try things out
+# Implementation of John Conway's Game of Life using Pygame
+# https://playgameoflife.com/ 
 # Using the Pygame official docs:
 # https://www.pygame.org/docs/
 
@@ -11,8 +12,8 @@ from pygame import Color
 # sizes
 width = 1280
 height = 720
-cell_width = 16
-cell_height = 16
+cell_width = 4
+cell_height = 4
 
 rows = width // cell_width
 cols = height // cell_height
@@ -52,13 +53,13 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             # determine which cell the mouse is in, and toggle the life status!
-            col = (mouse_pos[1] - (mouse_pos[1] % 16)) // 16
-            row = (mouse_pos[0] - (mouse_pos[0] % 16)) // 16
+            col = (mouse_pos[1] - (mouse_pos[1] % cell_width)) // cell_width
+            row = (mouse_pos[0] - (mouse_pos[0] % cell_width)) // cell_width
 
             print(row, col)
             print(mouse_pos)
 
-            cells[row // 16][col // 16] = not cells[row // 16][col // 16]
+            cells[row // cell_width][col // cell_width] = not cells[row // cell_width][col // cell_width]
             cell = pygame.Rect(row, col, cell_width, cell_height)
 
 
@@ -68,7 +69,7 @@ while running:
     cornercell = pygame.draw.rect(screen, colors[1], corner)
     for row in range(rows):
         for col in range(cols):
-            cell = pygame.Rect(row * 16, col * 16, cell_width, cell_height)
+            cell = pygame.Rect(row * cell_width, col * cell_width, cell_width, cell_height)
             if cells[row // cell_width][col // cell_width]:
                 pygame.draw.rect(screen, colors[1], cell)
             else:
@@ -83,3 +84,18 @@ while running:
     clock.tick(60)  # limits FPS to 60
 
 pygame.quit()
+
+# Rules
+# For a space that is populated:
+# Examples
+# Each cell with one or no neighbors dies, as if by solitude.
+#   Check all (up to) 9 neighboring cells and count the number of trues
+
+
+# Each cell with four or more neighbors dies, as if by overpopulation.
+
+
+# Each cell with two or three neighbors survives.
+
+# For a space that is empty or unpopulated:
+# Each cell with three neighbors becomes populated.
