@@ -123,5 +123,17 @@ for row in range(rows):
             if col < cols - 1:
                 if cells[row + 1][col + 1]:
                     num_adjacent += 1
-
-
+        # Any dead cell with 3 live neighbours -> alive as if by reproduction.
+        if not cells[row][col]:
+            if num_adjacent == 3:
+                cells[row][col] = True
+        else: # cell is alive
+            # Any live cell with fewer than two live neighbors dies.
+            if num_adjacent < 2:
+                cells[row][col] = False
+            # Any live cell with 2 or three live neighbors survives.
+            elif num_adjacent == 2 or num_adjacent == 3:
+                cells[row][col] = True
+            # Any live cell with > 3 live neighbours dies.
+            elif num_adjacent > 3:
+                cells[row][col] = False
