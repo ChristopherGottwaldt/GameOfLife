@@ -1,7 +1,7 @@
 #!/cygdrive/c/Program Files/Python38/python
 
 # Implementation of John Conway's Game of Life using Pygame
-# https://playgameoflife.com/ 
+# https://playgameoflife.com/
 # Using the Pygame official docs:
 # https://www.pygame.org/docs/
 
@@ -74,7 +74,7 @@ while running:
                 pygame.draw.rect(screen, colors[1], cell)
             else:
                 pygame.draw.rect(screen, colors[0], cell)
-        
+
 
     # RENDER YOUR GAME HERE
 
@@ -85,17 +85,35 @@ while running:
 
 pygame.quit()
 
-# Rules
-# For a space that is populated:
-# Examples
-# Each cell with one or no neighbors dies, as if by solitude.
-#   Check all (up to) 9 neighboring cells and count the number of trues
+# (src: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Rules)
+# check all cells for the following conditions:
+# Any live cell with fewer than two live neighbors dies by underpopulation.
+# Any live cell with 2 or three live neighbors lives on to the next generation.
+# Any live cell with > 3 live neighbours dies, as if by overpopulation.
+# Any dead cell with 3 live neighbours becomes alive as if by reproduction.
+num_adjacent = 0
+for row in cells:
+    for col in cells:
+        # count its neighbors :)
+        num_adjacent = 0
+        # check for live cells laterally (col to left and right!)
+        if cells[row][col - 1]:
+            num_adjacent += 1
+        if cells[row][col + 1]:
+            num_adjacent += 1
+        # and now vertically (row to left and right)
+        if cells[row - 1][col]:
+            num_adjacent += 1
+        if cells[row + 1][col]:
+            num_adjacent += 1
+        # finally counting the corners
+        if cells[row - 1][col - 1]:
+            num_adjacent += 1
+        if cells[row - 1][col + 1]:
+            num_adjacent += 1
+        if cells[row + 1][col - 1]:
+            num_adjacent += 1
+        if cells[row + 1][col + 1]:
+            num_adjacent += 1
 
 
-# Each cell with four or more neighbors dies, as if by overpopulation.
-
-
-# Each cell with two or three neighbors survives.
-
-# For a space that is empty or unpopulated:
-# Each cell with three neighbors becomes populated.
