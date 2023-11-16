@@ -92,28 +92,36 @@ pygame.quit()
 # Any live cell with > 3 live neighbours dies, as if by overpopulation.
 # Any dead cell with 3 live neighbours becomes alive as if by reproduction.
 num_adjacent = 0
-for row in cells:
-    for col in cells:
-        # count its neighbors :)
+
+for row in range(rows):
+    for col in range(cols):
+        # count its live neighbors :)
         num_adjacent = 0
         # check for live cells laterally (col to left and right!)
-        if cells[row][col - 1]:
-            num_adjacent += 1
-        if cells[row][col + 1]:
-            num_adjacent += 1
-        # and now vertically (row to left and right)
-        if cells[row - 1][col]:
-            num_adjacent += 1
-        if cells[row + 1][col]:
-            num_adjacent += 1
-        # finally counting the corners
-        if cells[row - 1][col - 1]:
-            num_adjacent += 1
-        if cells[row - 1][col + 1]:
-            num_adjacent += 1
-        if cells[row + 1][col - 1]:
-            num_adjacent += 1
-        if cells[row + 1][col + 1]:
-            num_adjacent += 1
+        if col >= 1:
+            if cells[row][col - 1]:
+                num_adjacent += 1
+        if col < cols - 1:
+            if cells[row][col + 1]:
+                num_adjacent += 1
+        # and now vertically (row to left and right) and corners
+        if row >= 1:
+            if cells[row - 1][col]:
+                num_adjacent += 1
+            if col >= 1:
+                if cells[row - 1][col - 1]:
+                    num_adjacent += 1
+            if col < cols - 1:
+                if cells[row - 1][col + 1]:
+                    num_adjacent += 1
+        if row < rows - 1:
+            if cells[row + 1][col]:
+                num_adjacent += 1
+            if col >= 1:
+                if cells[row + 1][col - 1]:
+                    num_adjacent += 1
+            if col < cols - 1:
+                if cells[row + 1][col + 1]:
+                    num_adjacent += 1
 
 
