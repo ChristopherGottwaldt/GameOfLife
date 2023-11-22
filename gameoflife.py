@@ -76,51 +76,55 @@ while running:
         # Any live cell with > 3 live neighbours dies, as if by overpopulation.
         # Any dead cell with 3 live neighbours becomes alive as if by reproduction.
         num_adjacent = 0
-
-        for row in range(rows):
-            for col in range(cols):
+        print(len(cells))
+        print(len(cells[0]))
+        print(rows)
+        print(cols)
+        for col in range(cols):
+            for row in range(rows):
                 # count its live neighbors :)
+                # print(row, col)
                 num_adjacent = 0
                 # check for live cells laterally (col to left and right!)
                 if col >= 1:
-                    if cells[row][col - 1]:
+                    if cells[col - 1][row]:
                         num_adjacent += 1
                 if col < cols - 1:
-                    if cells[row][col + 1]:
+                    if cells[col + 1][row]:
                         num_adjacent += 1
                 # and now vertically (row to left and right) and corners
                 if row >= 1:
-                    if cells[row - 1][col]:
+                    if cells[col][row - 1]:
                         num_adjacent += 1
                     if col >= 1:
-                        if cells[row - 1][col - 1]:
+                        if cells[col - 1][row - 1]:
                             num_adjacent += 1
-                    if col < cols - 1:
-                        if cells[row - 1][col + 1]:
+                    if col < cols - 2:
+                        if cells[col + 1][row - 1]:
                             num_adjacent += 1
-                if row < rows - 1:
-                    if cells[row + 1][col]:
+                if row < rows - 2:
+                    if cells[col][row + 1]:
                         num_adjacent += 1
                     if col >= 1:
-                        if cells[row + 1][col - 1]:
+                        if cells[col - 1][row + 1]:
                             num_adjacent += 1
-                    if col < cols - 1:
-                        if cells[row + 1][col + 1]:
+                    if col < cols - 2:
+                        if cells[col + 1][row + 1]:
                             num_adjacent += 1
                 # Any dead cell with 3 live neighbours -> alive as if by reproduction.
-                if not cells[row][col]:
+                if not cells[col][row]:
                     if num_adjacent == 3:
-                        cells[row][col] = True
+                        cells[col][row] = True
                 else: # cell is alive
                     # Any live cell with fewer than two live neighbors dies.
                     if num_adjacent < 2:
-                        cells[row][col] = False
+                        cells[col][row] = False
                     # Any live cell with 2 or three live neighbors survives.
                     elif num_adjacent == 2 or num_adjacent == 3:
-                        cells[row][col] = True
+                        cells[col][row] = True
                     # Any live cell with > 3 live neighbours dies.
                     elif num_adjacent > 3:
-                        cells[row][col] = False
+                        cells[col][row] = False
 
 
 
